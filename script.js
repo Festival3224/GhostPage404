@@ -1,3 +1,8 @@
+/* Ghost 404 (remake)
+   Inspired by Diogo Gomes (CodePen).
+   Reimplemented: colors/typography, vanilla JS, cleaned CSS.
+*/
+
 window.addEventListener('DOMContentLoaded', () => {
   const eyes = document.querySelector('.ghost__eyes');
   const head = document.querySelector('.ghost__head');
