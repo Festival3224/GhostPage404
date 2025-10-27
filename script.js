@@ -1,20 +1,32 @@
-//based on https://dribbble.com/shots/3913847-404-page
+window.addEventListener('DOMContentLoaded', () => {
+  const eyes = document.querySelector('.ghost__eyes');
+  const head = document.querySelector('.ghost__head');
+  if (!eyes || !head) return;
 
-var pageX = $(document).width();
-var pageY = $(document).height();
-var mouseY=0;
-var mouseX=0;
+  // Максимальные смещения в пикселях
+  const MAX_X = 16; // влево/вправо
+  const MAX_Y = 8;  // вверх/вниз
 
-$(document).mousemove(function( event ) {
-  //verticalAxis
-  mouseY = event.pageY;
-  yAxis = (pageY/2-mouseY)/pageY*300; 
-  //horizontalAxis
-  mouseX = event.pageX / -pageX;
-  xAxis = -mouseX * 100 - 100;
+  eyes.style.setProperty('--tx', '0px');
+  eyes.style.setProperty('--ty', '0px');
 
-  $('.box__ghost-eyes').css({ 'transform': 'translate('+ xAxis +'%,-'+ yAxis +'%)' }); 
+  function onMove(e) {
+    const r = head.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top  + r.height * 0.45;
 
-  console.log('X: ' + xAxis);
+    let tx = e.clientX - cx;
+    let ty = e.clientY - cy;
 
+    const scaleX = MAX_X / (r.width  / 2);
+    const scaleY = MAX_Y / (r.height / 2);
+    tx = Math.max(-MAX_X, Math.min(MAX_X, tx * scaleX));
+    ty = Math.max(-MAX_Y, Math.min(MAX_Y, ty * scaleY));
+
+    eyes.style.setProperty('--tx', `${tx}px`);
+    eyes.style.setProperty('--ty', `${ty}px`);
+
+  }
+
+  window.addEventListener('mousemove', onMove, { passive: true });
 });
